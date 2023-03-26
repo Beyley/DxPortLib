@@ -30,7 +30,7 @@ GLInfo PL_GL = { 0 };
 extern int PL_drawOffscreen;
 
 static void s_debugPrint(const char *string) {
-    /* fprintf(stderr, "%s\n", string); */
+    printf("debugprint:%s\n", string);
 }
 
 int PLGL_End() {

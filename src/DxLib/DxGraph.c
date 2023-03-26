@@ -373,8 +373,10 @@ int Dx_Graph_GetTextureID(int graphID, PLRect *rect) {
 }
 
 int Dx_Graph_GetTextureInfo(int graphID, int *dTextureRefID, PLRect *rect, float *xMult, float *yMult) {
+    printf("Dx_Graph_GetTextureInfo(%f, %f)\n", *xMult, *yMult);
     Graph *graph = s_GetGraph(graphID);
     if (graph == NULL) {
+
         return -1;
     }
    

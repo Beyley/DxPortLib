@@ -51,7 +51,8 @@ void PL_SDL2GL_Init(SDL_Window *window, int width, int height) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #endif
-    
+
+
     /* Initialize the opengl context */
     s_context = SDL_GL_CreateContext(window);
     if (s_context == NULL) {

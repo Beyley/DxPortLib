@@ -54,6 +54,11 @@ typedef struct RenderbufferInfo {
     int refCount;
 } RenderbufferInfo;
 
+//HACK: This is a hack to get around the missing GL_DEPTH_STENCIL_ATTACHMENT constant
+#ifndef GL_DEPTH_STENCIL_ATTACHMENT
+#define GL_DEPTH_STENCIL_ATTACHMENT       0x821A
+#endif
+
 static int s_GLFrameBuffer_Bind(int handleID, GLenum textureTarget, GLuint textureID, int renderbufferID) {
     FramebufferInfo *info;
     
@@ -703,6 +708,10 @@ int PLGL_Texture_RenderGetTextureInfo(int textureRefID, PLRect *rect, float *xMu
     
     return 0;
 }
+
+#ifndef GL_DEPTH24_STENCIL8
+#define GL_DEPTH24_STENCIL8 0x88F0
+#endif
 
 int PLGL_Renderbuffer_Create(int width, int height) {
     int renderbufferID = PL_Handle_AcquireID(DXHANDLE_RENDERBUFFER);

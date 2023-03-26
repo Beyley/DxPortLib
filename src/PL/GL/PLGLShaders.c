@@ -499,12 +499,17 @@ void PLGL_Shaders_ApplyProgramVertexData(int shaderHandle,
         for (i = 0; i < elementCount; ++i, ++e) {
             GLenum vertexType = VertexElementSizeToGL(e->vertexElementSize);
             switch (e->vertexType) {
-                case VERTEX_POSITION:
+                case VERTEX_POSITION: {
+                    char* vertexDataOffset = NULL;
+                    if(vertexData != NULL) {
+                        vertexDataOffset = vertexData + e->offset;
+                    }
                     PL_GL.glVertexAttribPointer(info->glVertexAttribID,
                                                 e->size, vertexType, GL_FALSE,
-                                                vertexDataSize, vertexData + e->offset);
+                                                vertexDataSize, vertexDataOffset);
                     PL_GL.glEnableVertexAttribArray(info->glVertexAttribID);
                     break;
+                }
                 case VERTEX_TEXCOORD0:
                 case VERTEX_TEXCOORD1:
                 case VERTEX_TEXCOORD2:
@@ -512,22 +517,33 @@ void PLGL_Shaders_ApplyProgramVertexData(int shaderHandle,
                         int slot = e->vertexType - VERTEX_TEXCOORD0;
                         GLint attribID = info->glTexcoordAttribID[slot];
                         if (attribID >= 0) {
+                            char* vertexDataOffset = NULL;
+                            if(vertexData != NULL) {
+                                vertexDataOffset = vertexData + e->offset;
+                            }
+
                             PL_GL.glVertexAttribPointer(attribID,
                                                         e->size, vertexType, GL_FALSE,
-                                                        vertexDataSize, vertexData + e->offset);
+                                                        vertexDataSize, vertexDataOffset);
                             PL_GL.glUniform1i(info->glTextureUniformID[slot], slot);
                             PL_GL.glEnableVertexAttribArray(attribID);
                         }
                         break;
                     }
-                case VERTEX_COLOR:
+                case VERTEX_COLOR: {
                     if (info->glColorAttribID >= 0) {
+                        char* vertexDataOffset = NULL;
+                        if(vertexData != NULL) {
+                            vertexDataOffset = vertexData + e->offset;
+                        }
+                        
                         PL_GL.glVertexAttribPointer(info->glColorAttribID,
                                                     e->size, vertexType, GL_TRUE,
-                                                    vertexDataSize, vertexData + e->offset);
+                                                    vertexDataSize, vertexDataOffset);
                         PL_GL.glEnableVertexAttribArray(info->glColorAttribID);
                     }
                     break;
+                }
             }
         }
     }

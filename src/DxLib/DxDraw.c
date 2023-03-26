@@ -667,6 +667,14 @@ int Dx_EXT_Draw_RectGraphFastF(
         v[3] = v[2];
         v[4] = v[1];
         v[5].x = dx2; v[5].y = dy2; v[5].tcx = tx2; v[5].tcy = ty2; v[5].color = vColor;
+
+        //print the vertices' texture coordinates
+        printf("v[0].tcx: %f, v[0].tcy: %f\n", v[0].tcx, v[0].tcy);
+        printf("v[1].tcx: %f, v[1].tcy: %f\n", v[1].tcx, v[1].tcy);
+        printf("v[2].tcx: %f, v[2].tcy: %f\n", v[2].tcx, v[2].tcy);
+        printf("v[3].tcx: %f, v[3].tcy: %f\n", v[3].tcx, v[3].tcy);
+        printf("v[4].tcx: %f, v[4].tcy: %f\n", v[4].tcx, v[4].tcy);
+        printf("v[5].tcx: %f, v[5].tcy: %f\n", v[5].tcx, v[5].tcy);
     }
     
     return 0;

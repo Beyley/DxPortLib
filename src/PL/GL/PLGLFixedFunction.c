@@ -272,22 +272,37 @@ int PLGL_FixedFunction_ApplyVertexArrayData(const VertexDefinition *def,
     for (i = 0; i < elementCount; ++i, ++e) {
         GLenum vertexType = VertexElementSizeToGL(e->vertexElementSize);
         switch (e->vertexType) {
-            case VERTEX_POSITION:
+            case VERTEX_POSITION: {
                 PL_GL.glEnableClientState(GL_VERTEX_ARRAY);
-                PL_GL.glVertexPointer(e->size, vertexType, vertexDataSize, vertexData + e->offset);
+                char* offsetVertexData = NULL;
+                if(vertexData != NULL) {
+                    offsetVertexData = vertexData + e->offset;
+                }
+                PL_GL.glVertexPointer(e->size, vertexType, vertexDataSize, offsetVertexData);
                 break;
+            }
             case VERTEX_TEXCOORD0:
             case VERTEX_TEXCOORD1:
             case VERTEX_TEXCOORD2:
-            case VERTEX_TEXCOORD3:
+            case VERTEX_TEXCOORD3: {
                 PL_GL.glClientActiveTexture(GL_TEXTURE0 - VERTEX_TEXCOORD0 + e->vertexType);
                 PL_GL.glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-                PL_GL.glTexCoordPointer(e->size, vertexType, vertexDataSize, vertexData + e->offset);
+                char* offsetVertexData = NULL;
+                if(vertexData != NULL) {
+                    offsetVertexData = vertexData + e->offset;
+                }
+                PL_GL.glTexCoordPointer(e->size, vertexType, vertexDataSize, offsetVertexData);
                 break;
-            case VERTEX_COLOR:
+            }
+            case VERTEX_COLOR: {
                 PL_GL.glEnableClientState(GL_COLOR_ARRAY);
-                PL_GL.glColorPointer(e->size, vertexType, vertexDataSize, vertexData + e->offset);
+                char* offsetVertexData = NULL;
+                if(vertexData != NULL) {
+                    offsetVertexData = vertexData + e->offset;
+                }
+                PL_GL.glColorPointer(e->size, vertexType, vertexDataSize, offsetVertexData);
                 break;
+            }
         }
     }
     return 0;

@@ -56,13 +56,13 @@
 
 /* DxPortLib extension - Sets the drawing backend.
  */
-/* #define DXPORTLIB_DRAW_DIRECT3D9 */
+//#define DXPORTLIB_DRAW_DIRECT3D9 
 #define DXPORTLIB_DRAW_OPENGL
 
 /* For OpenGL, define this to use the OpenGL ES 2.0 support.
  * This is automatically enforced for Android, IOS, and Emscripten targets.
  */
-/* #define DXPORTLIB_DRAW_OPENGL_ES2 */
+#define DXPORTLIB_DRAW_OPENGL_ES2
 
 /* Disables support for sound.
  */
@@ -104,10 +104,10 @@
 #endif
 
 /* D3D9 not available on non-Windows platforms */
-#if !defined(WIN32)
-#  ifdef DXPORTLIB_DRAW_DIRECT3D9
-#    undef DXPORTLIB_DRAW_DIRECT3D9
-#  endif
-#endif
+// #if !defined(WIN32)
+// #  ifdef DXPORTLIB_DRAW_DIRECT3D9
+// #    undef DXPORTLIB_DRAW_DIRECT3D9
+// #  endif
+// #endif
 
 #endif /* #ifndef DPLLIB_BUILDCONFIG_H_HEADER */

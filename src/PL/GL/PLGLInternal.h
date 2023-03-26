@@ -94,8 +94,8 @@ typedef struct GLInfo_t {
                                    GLvoid *pixels );
 
     /* Drawing functions */
-    void (APIENTRY *glClearDepth)( GLclampd depth );
-    void (APIENTRY *glClearColor)( GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha );
+    void (APIENTRY *glClearDepth)( GLdouble depth );
+    void (APIENTRY *glClearColor)( GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha );
     void (APIENTRY *glClear)( GLbitfield mask );
     
 #ifndef DXPORTLIB_DRAW_OPENGL_ES2
@@ -114,10 +114,10 @@ typedef struct GLInfo_t {
     void (APIENTRY *glBlendEquationSeparate) ( GLenum modeRGB, GLenum modeAlpha );
     void (APIENTRY *glBlendEquation) ( GLenum mode );
 #ifndef DXPORTLIB_DRAW_OPENGL_ES2
-    void (APIENTRY *glAlphaFunc)( GLenum func, GLclampf ref );
+    void (APIENTRY *glAlphaFunc)( GLenum func, GLfloat ref );
 #endif
-    void (APIENTRY *glDepthRange)( GLclampd nearVal, GLclampd farVal );
-    void (APIENTRY *glDepthRangef)( GLclampf nearVal, GLclampf farVal );
+    void (APIENTRY *glDepthRange)( GLdouble nearVal, GLdouble farVal );
+    void (APIENTRY *glDepthRangef)( GLfloat nearVal, GLfloat farVal );
     void (APIENTRY *glDepthFunc)( GLenum func );
     void (APIENTRY *glDepthMask)( GLboolean flag );
     

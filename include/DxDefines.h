@@ -592,6 +592,30 @@ typedef struct _DISPLAYMODEDATA {
 #define MOUSE_INPUT_7           (0x40)
 #define MOUSE_INPUT_8           (0x80)
 
+// アスキーコントロールキーコード
+#define CTRL_CODE_BS								(0x08)				// バックスペース
+#define CTRL_CODE_TAB								(0x09)				// タブ
+#define CTRL_CODE_CR								(0x0d)				// 改行
+#define CTRL_CODE_DEL								(0x10)				// ＤＥＬキー
+
+#define CTRL_CODE_COPY								(0x03)				// コピー
+#define CTRL_CODE_PASTE								(0x16)				// ペースト
+#define CTRL_CODE_CUT								(0x18)				// カット
+#define CTRL_CODE_ALL								(0x01)				// 全て選択
+
+#define CTRL_CODE_LEFT								(0x1d)				// ←キー
+#define CTRL_CODE_RIGHT								(0x1c)				// →キー
+#define CTRL_CODE_UP								(0x1e)				// ↑キー
+#define CTRL_CODE_DOWN								(0x1f)				// ↓キー
+
+#define CTRL_CODE_HOME								(0x1a)				// ＨＯＭＥボタン
+#define CTRL_CODE_END								(0x19)				// ＥＮＤボタン
+#define CTRL_CODE_PAGE_UP							(0x17)				// ＰＡＧＥ ＵＰ
+#define CTRL_CODE_PAGE_DOWN							(0x15)				// ＰＡＧＥ ＤＯＷＮ
+
+#define CTRL_CODE_ESC								(0x1b)				// ＥＳＣキー
+#define CTRL_CODE_CMP								(0x20)		
+
 /* ----------------------------------------------------- SOUND DEFINES */
 #define DX_PLAYTYPE_LOOPBIT     (0x0002)
 #define DX_PLAYTYPE_BACKBIT     (0x0001)

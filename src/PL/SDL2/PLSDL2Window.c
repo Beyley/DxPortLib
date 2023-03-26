@@ -287,6 +287,10 @@ int PL_Window_Init(void) {
      * for no good reason. This deals with that. */
     SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
     
+    // SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    // SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
+    // SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+
     s_windowFlags |=
         SDL_WINDOW_OPENGL |
         SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_MOUSE_FOCUS;
