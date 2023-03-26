@@ -650,7 +650,6 @@ static GlyphData *s_CacheGlyph(FontData *fontData, unsigned int glyphID) {
     GlyphData *glyph;
     
     if (glyphID > 65535) {
-        printf("s_CacheGlyph: glyphID > 65535\n");
         return NULL;
     }
     
@@ -660,7 +659,6 @@ static GlyphData *s_CacheGlyph(FontData *fontData, unsigned int glyphID) {
     }
     
     if (TTF_GlyphIsProvided(fontData->font, (Uint16)glyphID) == FALSE) {
-        printf("s_CacheGlyph: TTF_GlyphIsProvided == FALSE\n");
         return NULL;
     }
     
@@ -668,14 +666,12 @@ static GlyphData *s_CacheGlyph(FontData *fontData, unsigned int glyphID) {
     retval = TTF_GlyphMetrics(fontData->font, (Uint16)glyphID, 
                               &minX, &maxX, &minY, &maxY, &advance);
     if (retval < 0) {
-        printf("s_CacheGlyph: TTF_GlyphMetrics failed\n");
         return NULL;
     }
     
     /* - Get a new glyph slot for use, if available. */
     glyph = s_AllocateGlyph(fontData, glyphID);
     if (glyph == NULL) {
-        printf("s_CacheGlyph: s_AllocateGlyph failed\n");
         return NULL;
     }
 
@@ -696,7 +692,6 @@ static GlyphData *s_CacheGlyph(FontData *fontData, unsigned int glyphID) {
     #include <signal.h>
     if (maxX == minX && maxY == minY) {
         /* Probably a blank space. */
-        printf("s_CacheGlyph: maxX == minX && maxY == minY\n");
         return NULL;
     }
     
@@ -728,8 +723,6 @@ int Dx_Font_DrawStringA(int x, int y, double exRateX, double exRateY,
     if (fontData == NULL) {
         return -1;
     }
-
-    printf("Drawing string: %s\n", string);
     
     PL_Text_StringToWideChar(buf, string, fontData->charset, 4096);
     

@@ -277,6 +277,8 @@ int PLGL_FixedFunction_ApplyVertexArrayData(const VertexDefinition *def,
                 char* offsetVertexData = NULL;
                 if(vertexData != NULL) {
                     offsetVertexData = vertexData + e->offset;
+                } else {
+                    offsetVertexData = (char*)e->offset;
                 }
                 PL_GL.glVertexPointer(e->size, vertexType, vertexDataSize, offsetVertexData);
                 break;
@@ -290,6 +292,8 @@ int PLGL_FixedFunction_ApplyVertexArrayData(const VertexDefinition *def,
                 char* offsetVertexData = NULL;
                 if(vertexData != NULL) {
                     offsetVertexData = vertexData + e->offset;
+                } else {
+                    offsetVertexData = (char*)e->offset;
                 }
                 PL_GL.glTexCoordPointer(e->size, vertexType, vertexDataSize, offsetVertexData);
                 break;
@@ -299,6 +303,8 @@ int PLGL_FixedFunction_ApplyVertexArrayData(const VertexDefinition *def,
                 char* offsetVertexData = NULL;
                 if(vertexData != NULL) {
                     offsetVertexData = vertexData + e->offset;
+                } else {
+                    offsetVertexData = (char*)e->offset;
                 }
                 PL_GL.glColorPointer(e->size, vertexType, vertexDataSize, offsetVertexData);
                 break;

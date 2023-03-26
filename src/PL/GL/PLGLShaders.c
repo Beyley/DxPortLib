@@ -37,6 +37,7 @@ static const char s_stockVertexShaderNocolorTex1[] = {
         "varying vec2 outTexcoord;\n"
         "void main() {\n"
         "    gl_Position = projection * (modelView * position);\n"
+        "    gl_Position.y = -gl_Position.y;\n"
         "    outTexcoord = texcoord;\n"
         "}\n"
 };
@@ -48,6 +49,7 @@ static const char s_stockVertexShaderColorNotex[] = {
         "varying vec4 outColor;\n"
         "void main() {\n"
         "    gl_Position = projection * (modelView * position);\n"
+        "    gl_Position.y = -gl_Position.y;\n"
         "    outColor = color;\n"
         "}\n"
 };
@@ -61,6 +63,7 @@ static const char s_stockVertexShaderColorTex1[] = {
         "varying vec4 outColor;\n"
         "void main() {\n"
         "    gl_Position = projection * (modelView * position);\n"
+        "    gl_Position.y = -gl_Position.y;\n"
         "    outColor = color;\n"
         "    outTexcoord = texcoord;\n"
         "}\n",
@@ -503,6 +506,8 @@ void PLGL_Shaders_ApplyProgramVertexData(int shaderHandle,
                     char* vertexDataOffset = NULL;
                     if(vertexData != NULL) {
                         vertexDataOffset = vertexData + e->offset;
+                    } else {
+                        vertexDataOffset = (char*)e->offset;
                     }
                     PL_GL.glVertexAttribPointer(info->glVertexAttribID,
                                                 e->size, vertexType, GL_FALSE,
@@ -520,7 +525,10 @@ void PLGL_Shaders_ApplyProgramVertexData(int shaderHandle,
                             char* vertexDataOffset = NULL;
                             if(vertexData != NULL) {
                                 vertexDataOffset = vertexData + e->offset;
+                            } else {
+                                vertexDataOffset = (char*)e->offset;
                             }
+                            // printf("vertexDataOffset: %d\n", vertexDataOffset);
 
                             PL_GL.glVertexAttribPointer(attribID,
                                                         e->size, vertexType, GL_FALSE,
@@ -535,6 +543,8 @@ void PLGL_Shaders_ApplyProgramVertexData(int shaderHandle,
                         char* vertexDataOffset = NULL;
                         if(vertexData != NULL) {
                             vertexDataOffset = vertexData + e->offset;
+                        } else {
+                            vertexDataOffset = (char*)e->offset;
                         }
                         
                         PL_GL.glVertexAttribPointer(info->glColorAttribID,
