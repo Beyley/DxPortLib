@@ -40,16 +40,16 @@ pub fn create_dxlib_library(b: *std.Build, target: std.zig.CrossTarget, mode: st
     dxLib.linkLibC();
     dxLib.linkLibCpp();
 
-    dxLib.addIncludePath("DxPortLib/vorbis/include");
-    dxLib.addIncludePath("DxPortLib/ogg/include");
+    dxLib.addIncludePath(root_path ++ "vorbis/include");
+    dxLib.addIncludePath(root_path ++ "ogg/include");
 
     dxLib.linkSystemLibrary("SDL2");
     dxLib.linkSystemLibrary("SDL2_ttf");
     dxLib.linkSystemLibrary("SDL2_image");
     dxLib.linkSystemLibrary("vorbisfile");
 
-    dxLib.addIncludePath("src");
-    dxLib.addIncludePath("include");
+    dxLib.addIncludePath(root_path ++ "src");
+    dxLib.addIncludePath(root_path ++ "include");
 
     var dxlib_sources = try discover_dxportlib_sources(allocator);
 
