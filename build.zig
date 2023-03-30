@@ -3,36 +3,27 @@ const Self = @This();
 const CrossTarget = std.zig.CrossTarget;
 
 pub fn build(b: *std.Build) !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer {
-        if (gpa.deinit()) {
-            @panic("Memory leak!");
-        }
-    }
-    var allocator = std.heap.ArenaAllocator.init(gpa.allocator());
-    defer allocator.deinit();
-
     const target = b.standardTargetOptions(.{});
-    const mode = b.standardOptimizeOption(.{});
+    const optimize = b.standardOptimizeOption(.{});
 
-    var dxLibShared = try create_dxlib_library(b, target, mode, allocator.allocator(), true);
-    var dxLibStatic = try create_dxlib_library(b, target, mode, allocator.allocator(), false);
+    var dxLibShared = try create_dxlib_library(b, target, optimize, b.allocator, true);
+    var dxLibStatic = try create_dxlib_library(b, target, optimize, b.allocator, false);
 
-    dxLibShared.install();
-    dxLibStatic.install();
+    dxLibShared.compile_step.install();
+    dxLibStatic.compile_step.install();
 }
 
-pub fn create_dxlib_library(b: *std.Build, target: std.zig.CrossTarget, mode: std.builtin.Mode, allocator: std.mem.Allocator, shared: bool) !*std.build.CompileStep {
+pub fn create_dxlib_library(b: *std.Build, target: std.zig.CrossTarget, optimize: std.builtin.Mode, allocator: std.mem.Allocator, shared: bool) !struct { compile_step: *std.build.CompileStep, config_step: *std.build.ConfigHeaderStep } {
     const shared_dxlib_options: std.build.SharedLibraryOptions = .{
         .name = "DxPortLib",
         .target = target,
-        .optimize = mode,
+        .optimize = optimize,
     };
 
     const static_dxlib_options: std.build.StaticLibraryOptions = .{
         .name = "DxPortLib",
         .target = target,
-        .optimize = mode,
+        .optimize = optimize,
     };
 
     var dxLib: *std.build.CompileStep = if (shared) b.addSharedLibrary(shared_dxlib_options) else b.addStaticLibrary(static_dxlib_options);
@@ -56,7 +47,30 @@ pub fn create_dxlib_library(b: *std.Build, target: std.zig.CrossTarget, mode: st
     dxLib.addCSourceFiles(dxlib_sources.c, &.{});
     dxLib.addCSourceFiles(dxlib_sources.cpp, &.{"-std=c++11"});
 
-    return dxLib;
+    var config_header: *std.build.ConfigHeaderStep = b.addConfigHeader(std.build.ConfigHeaderStep.Options{
+        .style = .blank,
+        .include_path = "DPLBuildConfig.h",
+    }, .{
+        .DXPORTLIB = @boolToInt(true),
+        .DXPORTLIB_VERSION = "\"0.5.0\"",
+        .DXPORTLIB_DXLIB_INTERFACE = @boolToInt(true),
+        .DXPORTLIB_LUNA_INTERFACE = @boolToInt(true),
+        .DXPORTLIB_DPL_INTERFACE = @boolToInt(true),
+        .DXPORTLIB_PLATFORM_SDL2 = @boolToInt(true),
+        // .DXPORTLIB_NO_SJIS = @boolToInt(true),
+        .DXPORTLIB_DRAW_OPENGL = @boolToInt(true),
+        .DXPORTLIB_DRAW_OPENGL_ES2 = @boolToInt(true),
+        // .DXPORTLIB_DRAW_DIRECT3D9 = @boolToInt(true),
+        // .DXPORTLIB_NO_SOUND = @boolToInt(true),
+        // .DXPORTLIB_NO_INPUT = @boolToInt(true),
+        // .DXPORTLIB_NO_TTF_FONT = @boolToInt(true),
+        // .DXPORTLIB_NO_DXLIB_DXA = @boolToInt(true),
+        // .DXPORTLIB_LUNA_DYNAMIC_MATH_TABLE = @boolToInt(true),
+    });
+
+    dxLib.addConfigHeader(config_header);
+
+    return .{ .compile_step = dxLib, .config_step = config_header };
 }
 
 /// Discovers the paths of all the dxlib sources, returns a struct with an array of both the c and cpp sources
