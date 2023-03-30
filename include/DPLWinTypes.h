@@ -104,8 +104,11 @@ typedef uint32_t UINT;
 #if __x86_64__
 typedef uint64_t UINT_PTR;
 typedef uint64_t LONG_PTR;
+typedef int64_t LPARAM; 
 #elif __i386__
 typedef uint32_t UINT_PTR;
+typedef uint32_t LONG_PTR;
+typedef int32_t LPARAM; 
 #else
 #error Unknown pointer size or missing size macros!
 #endif
