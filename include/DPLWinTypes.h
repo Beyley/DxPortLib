@@ -57,6 +57,61 @@ typedef wchar_t TCHAR;
 #  else
 typedef char TCHAR;
 #  endif
+
+//virtual keys
+#define VK_SPACE    0x20
+#define VK_PRIOR    0x21
+#define VK_NEXT     0x22
+#define VK_END      0x23
+#define VK_HOME     0x24
+#define VK_LEFT     0x25
+#define VK_UP       0x26
+#define VK_RIGHT    0x27
+#define VK_DOWN     0x28
+#define VK_SELECT   0x29
+#define VK_PRINT    0x2A
+#define VK_EXECUTE  0x2B
+#define VK_SNAPSHOT 0x2C
+#define VK_INSERT   0x2D
+#define VK_DELETE   0x2E
+#define VK_HELP     0x2F
+
+#define VK_F1  0x70
+#define VK_F2  0x71
+#define VK_F3  0x72
+#define VK_F4  0x73
+#define VK_F5  0x74
+#define VK_F6  0x75
+#define VK_F7  0x76
+#define VK_F8  0x77
+#define VK_F9  0x78
+#define VK_F10 0x79
+#define VK_F11 0x7A
+#define VK_F12 0x7B
+
+//wm events
+#define WM_CHAR    0x0102
+#define WM_KEYDOWN 0x0100
+
+typedef void* PVOID;
+typedef PVOID HANDLE;
+typedef HANDLE HWND;
+
+typedef uint32_t UINT;
+
+#include <stdint.h>
+
+#if __x86_64__
+typedef uint64_t UINT_PTR;
+typedef uint64_t LONG_PTR;
+#elif __i386__
+typedef uint32_t UINT_PTR;
+#else
+#error Unknown pointer size or missing size macros!
+#endif
+
+typedef UINT_PTR WPARAM;
+
 #endif
 
 /* Verify that all tchar defines exist. */
