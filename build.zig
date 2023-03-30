@@ -15,13 +15,27 @@ pub fn build(b: *std.Build) !void {
     const target = b.standardTargetOptions(.{});
     const mode = b.standardOptimizeOption(.{});
 
-    const dxlib_options: std.build.SharedLibraryOptions = .{
+    var dxLibShared = try create_dxlib_library(b, target, mode, allocator.allocator(), true);
+    var dxLibStatic = try create_dxlib_library(b, target, mode, allocator.allocator(), false);
+
+    dxLibShared.install();
+    dxLibStatic.install();
+}
+
+pub fn create_dxlib_library(b: *std.Build, target: std.zig.CrossTarget, mode: std.builtin.Mode, allocator: std.mem.Allocator, shared: bool) !*std.build.CompileStep {
+    const shared_dxlib_options: std.build.SharedLibraryOptions = .{
         .name = "DxPortLib",
         .target = target,
         .optimize = mode,
     };
 
-    const dxLib: *std.build.CompileStep = b.addSharedLibrary(dxlib_options);
+    const static_dxlib_options: std.build.StaticLibraryOptions = .{
+        .name = "DxPortLib",
+        .target = target,
+        .optimize = mode,
+    };
+
+    var dxLib: *std.build.CompileStep = if (shared) b.addSharedLibrary(shared_dxlib_options) else b.addStaticLibrary(static_dxlib_options);
 
     dxLib.linkLibC();
     dxLib.linkLibCpp();
@@ -37,12 +51,12 @@ pub fn build(b: *std.Build) !void {
     dxLib.addIncludePath("src");
     dxLib.addIncludePath("include");
 
-    var dxlib_sources = try discover_dxportlib_sources(allocator.allocator());
+    var dxlib_sources = try discover_dxportlib_sources(allocator);
 
     dxLib.addCSourceFiles(dxlib_sources.c, &.{});
     dxLib.addCSourceFiles(dxlib_sources.cpp, &.{"-std=c++11"});
 
-    dxLib.install();
+    return dxLib;
 }
 
 /// Discovers the paths of all the dxlib sources, returns a struct with an array of both the c and cpp sources
