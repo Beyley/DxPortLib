@@ -225,3 +225,10 @@ configure
 config.status
 Makefile
 Makefile.in
+
+#########
+## Zig
+#########
+
+zig-out/
+zig-cache/
